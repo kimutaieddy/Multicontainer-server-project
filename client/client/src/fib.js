@@ -1,28 +1,77 @@
-// Lifecycle method that runs after the component output has been rendered to the DOM
-componentDidMount() {
-  this.fetchValues(); // Fetching the calculated Fibonacci values
-  this.fetchIndexes(); // Fetching the seen indexes
+import React, { Component } from 'react';
+import axios from 'axios';
+
+class Fib extends Component {
+  state = {
+    seenIndexes: [],
+    values: {},
+    index: '',
+  };
+
+  componentDidMount() {
+    this.fetchValues();
+    this.fetchIndexes();
+  }
+
+  async fetchValues() {
+    const values = await axios.get('/api/values/current');
+    this.setState({ values: values.data });
+  }
+
+  async fetchIndexes() {
+    const seenIndexes = await axios.get('/api/values/all');
+    this.setState({
+      seenIndexes: seenIndexes.data,
+    });
+  }
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+
+    await axios.post('/api/values', {
+      index: this.state.index,
+    });
+    this.setState({ index: '' });
+  };
+
+  renderSeenIndexes() {
+    return this.state.seenIndexes.map(({ number }) => number).join(', ');
+  }
+
+  renderValues() {
+    const entries = [];
+
+    for (let key in this.state.values) {
+      entries.push(
+        <div key={key}>
+          For index {key} I calculated {this.state.values[key]}
+        </div>
+      );
+    }
+
+    return entries;
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>Enter your index:</label>
+          <input
+            value={this.state.index}
+            onChange={(event) => this.setState({ index: event.target.value })}
+          />
+          <button>Submit</button>
+        </form>
+
+        <h3>Indexes I have seen:</h3>
+        {this.renderSeenIndexes()}
+
+        <h3>Calculated Values:</h3>
+        {this.renderValues()}
+      </div>
+    );
+  }
 }
 
-// Method to fetch the calculated Fibonacci values
-async fetchValues() {
-  const values = await axios.get('/api/values/current'); // Making a GET request to the server
-  this.setState({ values: values.data }); // Updating the state with the fetched values
-}
-
-// Method to fetch the seen indexes
-async fetchIndexes() {
-  const seenIndexes = await axios.get('/api/values/all'); // Making a GET request to the server
-  this.setState({
-    seenIndexes: seenIndexes.data, // Updating the state with the fetched indexes
-  });
-}
-
-// Method to handle form submission
-handleSubmit = async (event) => {
-  event.preventDefault(); // Preventing the default form submission behavior
-
-  await axios.post('/api/values', { // Making a POST request to the server
-    index: this.state.index, // Sending the current index
-  });
-};
+export default Fib;

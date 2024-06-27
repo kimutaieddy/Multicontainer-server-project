@@ -10,4 +10,4 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - /app/node_modules
-      - ./server:/app       
+      - ./server:/app

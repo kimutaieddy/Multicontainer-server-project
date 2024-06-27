@@ -4,7 +4,7 @@ services:
     image: "postgres:latest" # Use the official postgres image
   redis:
     image: "redis:latest" # Use the official redis image
-  server :
+  api :
     build: 
       context: ./server
       dockerfile: Dockerfile.dev

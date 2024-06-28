@@ -6,7 +6,9 @@ services:
     image: "redis:latest" # Use the official redis image
   nginx:
     restart: always
-    image: "nginx:latest" # Use the official nginx image
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
     ports:
       - "3050:80"
     depends_on:

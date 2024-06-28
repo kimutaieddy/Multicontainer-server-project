@@ -49,7 +49,7 @@ services:
       context: ./worker
 
     volumes:
-      -  .:/app
+      - /app/node_modules
       - ./client:/app
     environment:  
       - REDIS_HOST=redis

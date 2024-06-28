@@ -25,13 +25,13 @@ const pgClient = new Pool({
   password: keys.pgPassword,
   port: keys.pgPort,
 });
-//hapa kunaweza kua na issue not sure
+
 pgClient.on('connect', () => {
   pgClient
     .query('CREATE TABLE IF NOT EXISTS values (number INT)')
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 });
-  
+
 // Redis Client Setup
 const redis = require('redis');
 const redisClient = redis.createClient({

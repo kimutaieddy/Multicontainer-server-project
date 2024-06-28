@@ -45,8 +45,9 @@ services:
       - ./client:/app
   worker:
     build:
-      context: ./worker
       dockerfile: Dockerfile.dev
+      context: ./worker
+
     volumes:
       -  .:/app
       - ./client:/app

@@ -5,7 +5,7 @@
  *
  * @module index
  */
-const keys = require('../keys');
+const keys = require('./keys');
 
 // Express App Setup
 const express = require('express');

@@ -1,1 +1,24 @@
+name: CI
 
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+                uses: actions/checkout@v2
+
+            # Add your build and test steps here
+
+            - name: Deploy to production
+                uses: some-action-for-deployment@v1
+                with:
+                    environment: production

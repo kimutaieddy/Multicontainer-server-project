@@ -3,18 +3,21 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - kimutaieddy-patch-1
+      - main
   pull_request:
     branches:
-      - kimutaieddy-patch-1
+      - main
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v2
+
+      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -65,15 +68,15 @@ jobs:
       # Build Docker images for all components
       - name: Build Docker images
         run: |
-          docker build -t your-dockerhub-username/server:latest -f ./server/Dockerfile ./server
-          docker build -t your-dockerhub-username/nginx:latest -f ./nginx/Dockerfile ./nginx
-          docker build -t your-dockerhub-username/worker:latest -f ./worker/Dockerfile ./worker
-          docker build -t your-dockerhub-username/client:latest -f ./client/Dockerfile ./client
+          docker build -t usher/server:latest -f ./server/Dockerfile ./server
+          docker build -t usher/nginx:latest -f ./nginx/Dockerfile ./nginx
+          docker build -t usher/worker:latest -f ./worker/Dockerfile ./worker
+          docker build -t usher/client:latest -f ./client/Dockerfile ./client
 
       # Push Docker images to Docker Hub
       - name: Push Docker images
         run: |
-          docker push your-dockerhub-username/server:latest
-          docker push your-dockerhub-username/nginx:latest
-          docker push your-dockerhub-username/worker:latest
-          docker push your-dockerhub-username/client:latest
+          docker push usher/server:latest
+          docker push usher/nginx:latest
+          docker push usher/worker:latest
+          docker push usher/client:latest

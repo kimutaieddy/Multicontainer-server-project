@@ -62,21 +62,21 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2.1.0
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: kimutaieddy
+          password: ${{ secrets.DOCKER_PAT }}
 
-      # Build Docker images for all components
-      - name: Build Docker images
+      # Build and tag Docker images
+      - name: Build and tag Docker images
         run: |
-          docker build -t usher/server:latest -f ./server/Dockerfile ./server
-          docker build -t usher/nginx:latest -f ./nginx/Dockerfile ./nginx
-          docker build -t usher/worker:latest -f ./worker/Dockerfile ./worker
-          docker build -t usher/client:latest -f ./client/Dockerfile ./client
+          docker build -t kimutaieddy/server:latest -f ./server/Dockerfile ./server
+          docker build -t kimutaieddy/nginx:latest -f ./nginx/Dockerfile ./nginx
+          docker build -t kimutaieddy/worker:latest -f ./worker/Dockerfile ./worker
+          docker build -t kimutaieddy/client:latest -f ./client/Dockerfile ./client
 
       # Push Docker images to Docker Hub
       - name: Push Docker images
         run: |
-          docker push usher/server:latest
-          docker push usher/nginx:latest
-          docker push usher/worker:latest
-          docker push usher/client:latest
+          docker push kimutaieddy/server:latest
+          docker push kimutaieddy/nginx:latest
+          docker push kimutaieddy/worker:latest
+          docker push kimutaieddy/client:latest

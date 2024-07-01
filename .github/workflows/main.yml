@@ -1,12 +1,12 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
-    push:
-        branches:
-            -kimutaieddy-patch-1
-    pull_request:
-        branches:
-            - kimutaieddy-patch-1
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build_and_deploy:
@@ -22,6 +22,26 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+
+      # Install dependencies for server
+      - name: Install server dependencies
+        run: npm install
+        working-directory: ./server
+
+      # Run tests for server
+      - name: Run server tests
+        run: npm test
+        working-directory: ./server
+
+      # Install dependencies for worker
+      - name: Install worker dependencies
+        run: npm install
+        working-directory: ./worker
+
+      # Run tests for worker
+      - name: Run worker tests
+        run: npm test
+        working-directory: ./worker
 
       # Install dependencies for client (React) project
       - name: Install client dependencies

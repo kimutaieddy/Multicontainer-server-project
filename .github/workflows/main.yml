@@ -6,7 +6,7 @@ on:
             -kimutaieddy-patch-1
     pull_request:
         branches:
-            - main
+            - kimutaieddy-patch-1
 
 jobs:
     build:

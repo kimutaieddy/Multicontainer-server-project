@@ -13,11 +13,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:

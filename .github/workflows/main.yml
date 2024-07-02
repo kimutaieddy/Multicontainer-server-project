@@ -55,20 +55,10 @@ jobs:
 
       # Build production version of client (React) project
       - name: Build client project
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
         run: npm run build
         working-directory: ./client
-
-      # Debugging Step: List directories
-      - name: List directory contents
-        run: |
-          echo "Server directory:"
-          ls -l ./server
-          echo "Worker directory:"
-          ls -l ./worker
-          echo "Client directory:"
-          ls -l ./client
-          echo "Nginx directory:"
-          ls -l ./nginx
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub

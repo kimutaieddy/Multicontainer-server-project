@@ -55,9 +55,7 @@ jobs:
 
       # Build production version of client (React) project
       - name: Build client project
-        run: |
-          export NODE_OPTIONS=--openssl-legacy-provider
-          npm run build
+        run: npm run build
         working-directory: ./client
 
       # Log in to Docker Hub

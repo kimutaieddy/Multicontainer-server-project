@@ -62,8 +62,8 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2.1.0
         with:
-          username: KIMUTAIEDDY
-          password: ${{ secrets.DOCKER_PAT }}
+          username: kimutaieddy
+          password: dckr_pat_jwXqqMwzekCfcCuEC_PIzzXjB_Y
 
       # Build and tag Docker images
       - name: Build and tag Docker images

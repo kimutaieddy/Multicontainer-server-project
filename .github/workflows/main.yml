@@ -63,7 +63,7 @@ jobs:
         uses: docker/login-action@v2.1.0
         with:
           username: kimutaieddy
-          password: dckr_pat_jwXqqMwzekCfcCuEC_PIzzXjB_Y
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       # Build and tag Docker images
       - name: Build and tag Docker images

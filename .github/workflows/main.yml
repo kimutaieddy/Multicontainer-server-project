@@ -84,10 +84,10 @@ jobs:
       # Build and tag Docker images
       - name: Build and tag Docker images
         run: |
-          docker build -t kimutaieddy/server:latest -f ./server/Dockerfile ./server
-          docker build -t kimutaieddy/nginx:latest -f ./nginx/Dockerfile ./nginx
-          docker build -t kimutaieddy/worker:latest -f ./worker/Dockerfile ./worker
-          docker build -t kimutaieddy/client:latest -f ./client/Dockerfile ./client
+          docker build -t kimutaieddy/server:latest -f ./server
+          docker build -t kimutaieddy/nginx:latest -f ./nginx
+          docker build -t kimutaieddy/worker:latest -f ./worker
+          docker build -t kimutaieddy/client:latest -f ./client
 
       # Push Docker images to Docker Hub
       - name: Push Docker images

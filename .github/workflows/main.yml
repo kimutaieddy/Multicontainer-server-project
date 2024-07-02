@@ -13,69 +13,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository code
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      # Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      # Install dependencies for server
-      - name: Install server dependencies
-        run: npm install
+      - run: npm install
         working-directory: ./server
 
-      # Run tests for server
-      - name: Run server tests
-        run: npm test
+      - run: npm test
         working-directory: ./server
 
-      # Install dependencies for worker
-      - name: Install worker dependencies
-        run: npm install
+      - run: npm install
         working-directory: ./worker
 
-      # Run tests for worker
-      - name: Run worker tests
-        run: npm test
+      - run: npm test
         working-directory: ./worker
 
-      # Install dependencies for client (React) project
-      - name: Install client dependencies
-        run: npm install
+      - run: npm install
         working-directory: ./client
 
-      # Run tests for client (React) project
-      - name: Run client tests
-        run: npm test
+      - run: npm test
         working-directory: ./client
 
-      # Build production version of client (React) project
-      - name: Build client project
-        run: npm run build
+      - run: npm run build
         working-directory: ./client
 
-      # Log in to Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2.1.0
+      - uses: docker/login-action@v2.1.0
         with:
           username: kimutaieddy
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # Build and tag Docker images
-      - name: Build and tag Docker images
-        run: |
+      - run: |
           docker build -t kimutaieddy/server:latest -f ./server/Dockerfile ./server
           docker build -t kimutaieddy/nginx:latest -f ./nginx/Dockerfile ./nginx
           docker build -t kimutaieddy/worker:latest -f ./worker/Dockerfile ./worker
           docker build -t kimutaieddy/client:latest -f ./client/Dockerfile ./client
 
-      # Push Docker images to Docker Hub
-      - name: Push Docker images
-        run: |
+      - run: |
           docker push kimutaieddy/server:latest
           docker push kimutaieddy/nginx:latest
           docker push kimutaieddy/worker:latest

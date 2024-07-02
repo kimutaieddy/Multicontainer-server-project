@@ -54,11 +54,11 @@ jobs:
         working-directory: ./client
 
       # Build production version of client (React) project
-      - name: Build client project
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
-        run: npm run build
-        working-directory: ./client
+            - name: Build client project
+              run: |
+                export NODE_OPTIONS=--openssl-legacy-provider
+                npm run build
+              working-directory: ./client
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub

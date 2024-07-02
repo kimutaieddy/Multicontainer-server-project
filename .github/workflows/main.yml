@@ -55,14 +55,28 @@ jobs:
 
       # Build production version of client (React) project
       - name: Build client project
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
         run: npm run build
         working-directory: ./client
 
+      # Debugging Step: List directories
+      - name: List directory contents
+        run: |
+          echo "Server directory:"
+          ls -l ./server
+          echo "Worker directory:"
+          ls -l ./worker
+          echo "Client directory:"
+          ls -l ./client
+          echo "Nginx directory:"
+          ls -l ./nginx
+
+      # Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       # Log in to Docker Hub
       - name: Log in to Docker Hub
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@v2
         with:
           username: kimutaieddy
           password: ${{ secrets.DOCKERHUB_PASSWORD }}

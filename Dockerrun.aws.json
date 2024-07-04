@@ -6,23 +6,20 @@
             "name": "client",
             "image": "kimutaieddy/client",
             "hostname": "client",
-            "essential": false,
-        } 
-
+            "essential": false
+        }, 
         {
             "name": "server",
             "image": "kimutaieddy/server",
             "hostname": "api",
-            "essential": false,
-        }
+            "essential": false
+        },
         {
             "name": "worker",
             "image": "kimutaieddy/worker",
             "hostname": "worker",
-            "essential": false,
+            "essential": false
         }
-
+        
     ]
-
-
 }

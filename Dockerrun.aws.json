@@ -7,7 +7,15 @@
             "image": "kimutaieddy/client",
             "hostname": "client",
             "essential": false,
+        } 
+
+        {
+            "name": "server",
+            "image": "kimutaieddy/server",
+            "hostname": "api",
+            "essential": false,
         }
     ]
+
 
 }

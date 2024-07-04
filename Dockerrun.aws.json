@@ -15,6 +15,13 @@
             "hostname": "api",
             "essential": false,
         }
+        {
+            "name": "worker",
+            "image": "kimutaieddy/worker",
+            "hostname": "worker",
+            "essential": false,
+        }
+
     ]
 
 

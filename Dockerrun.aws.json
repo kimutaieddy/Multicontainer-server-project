@@ -5,6 +5,7 @@
         {
             "name": "client",
             "image": "kimutaieddy/client",
+            "hostname": "client"
             "essential": true,
             "memory": 128,
             "portMappings": 

@@ -7,14 +7,6 @@
             "image": "kimutaieddy/client",
             "hostname": "client",
             "essential": false,
-            "memory": 128,
-            "portMappings": 
-            [
-                {
-                    "hostPort": 80,
-                    "containerPort": 80
-                }
-            ]
         }
     ]
 

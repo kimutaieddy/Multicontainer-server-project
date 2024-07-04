@@ -1,5 +1,20 @@
 {
     "AWSEBDockerrunVersion": "2",
     "containerDefinitions": 
+    [
+        {
+            "name": "app",
+            "image": "docker.io/username/repo:tag",
+            "essential": true,
+            "memory": 128,
+            "portMappings": 
+            [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ]
+        }
+    ]
 
 }

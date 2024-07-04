@@ -6,7 +6,7 @@
             "name": "client",
             "image": "kimutaieddy/client",
             "hostname": "client",
-            "essential": true,
+            "essential": false,
             "memory": 128,
             "portMappings": 
             [

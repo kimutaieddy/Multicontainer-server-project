@@ -19,7 +19,10 @@
             "image": "kimutaieddy/worker",
             "hostname": "worker",
             "essential": false
+        },
+        {
+
         }
-        
+
     ]
 }

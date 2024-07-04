@@ -3,7 +3,7 @@
     "containerDefinitions": 
     [
         {
-            "name": "app",
+            "name": "client",
             "image": "docker.io/username/repo:tag",
             "essential": true,
             "memory": 128,

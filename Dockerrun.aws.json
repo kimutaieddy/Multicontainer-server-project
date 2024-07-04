@@ -4,7 +4,7 @@
     [
         {
             "name": "client",
-            "image": "kimutaieddy/clien",
+            "image": "kimutaieddy/client",
             "essential": true,
             "memory": 128,
             "portMappings": 

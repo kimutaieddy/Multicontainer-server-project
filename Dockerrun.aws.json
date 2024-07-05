@@ -12,7 +12,9 @@
             "name": "server",
             "image": "kimutaieddy/server",
             "hostname": "api",
-            "essential": false
+            essentia"essential": true,  
+            
+
         },
         {
             "name": "worker",

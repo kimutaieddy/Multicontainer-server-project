@@ -19,6 +19,7 @@
             "image": "kimutaieddy/worker",
             "hostname": "worker",
             "essential": false
+            "'taskRoleArn': 'arn:aws:iam::123456789012:role/ecsTaskExecutionRole'" 
         },
         {
             "name": "nginx",
@@ -33,6 +34,7 @@
                 }
             ],
             "links": ["client", "server"]
+
 
         }
 

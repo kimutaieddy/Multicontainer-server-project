@@ -27,6 +27,8 @@
             "hostname": "nginx",
             "essential": true,
             "portMappings": 
+            contain"'taskRoleArn': 'arn:aws:iam::123456789012:role/ecsTaskExecutionRole'"erDefinitions": [
+        {
             [
                 {
                     "hostPort": 80,

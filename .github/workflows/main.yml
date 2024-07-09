@@ -92,5 +92,5 @@ jobs:
       run: |
         npm run build
         zip -r deploy.zip .
-        aws elasticbeanstalk create-application-version --application-name $EB_ENV --version-label v1 --source-bundle S3Bucket=your-s3-bucket,S3Key=deploy.zip
+        aws elasticbeanstalk create-application-version --application-name $EB_ENV --version-label v1 --source-bundle S3Bucket=elasticbeanstalk-us-east-1-891376912432,S3Key=deploy.zip
         aws elasticbeanstalk update-environment --environment-name $EB_ENV --version-label v1

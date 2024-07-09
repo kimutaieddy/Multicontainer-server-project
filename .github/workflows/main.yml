@@ -72,6 +72,7 @@ jobs:
           aws-region: us-east-1
       - name: Deploy to Elastic Beanstalk
         env:
+          application-name: Multicontainer
           EB_ENV: Multicontainer-env
           S3_BUCKET: elasticbeanstalk-us-east-1-891376912432
         run: |

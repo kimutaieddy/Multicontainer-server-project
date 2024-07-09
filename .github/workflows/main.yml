@@ -57,22 +57,23 @@ jobs:
           docker push kimutaieddy/worker:latest
           docker push kimutaieddy/client:latest
 
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      name: Deploy to Elastic Beanstalk
 
-    # Add steps for any build or pre-deployment tasks here
+    on:
+      push:
+        branches:
+          - master
 
-    - name: Deploy to Elastic Beanstalk
-      uses: einaregilsson/beanstalk-deploy@v18
-      with:
-          application: 'multi-docker'
-          environment: 'MultiDocker-env'
-          region: 'us-east-1'
-          bucket_name: 'elasticbeanstalk-us-east-1-891376912432'
-          bucket_path: 'docker-multi'
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    jobs:
+      deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v2
+
+          - name: Deploy to Elastic Beanstalk
+            env:
+              AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            run: |
+              eb deploy --region us-east-1 --app multi-docker --env MultiDocker-env --s3-bucket elasticbeanstalk-us-east-1-923445559289 --s3-path docker-multi

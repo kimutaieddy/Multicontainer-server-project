@@ -56,3 +56,5 @@ jobs:
           docker push kimutaieddy/nginx:latest
           docker push kimutaieddy/worker:latest
           docker push kimutaieddy/client:latest
+  deploy:
+    

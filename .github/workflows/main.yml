@@ -58,4 +58,5 @@ jobs:
           docker push kimutaieddy/client:latest
   deploy:
     provider: elasticbeanstalk
+    access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
 

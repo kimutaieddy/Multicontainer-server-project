@@ -64,11 +64,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -80,7 +75,7 @@ jobs:
           EB_ENV: Multicontainer-env
           S3_BUCKET: elasticbeanstalk-us-east-1-891376912432
         run: |
-          npm run build
+
           zip -r deploy.zip .
           aws s3 cp deploy.zip s3://$S3_BUCKET/deploy.zip
           aws elasticbeanstalk create-application-version --application-name $EB_ENV --version-label v1 --source-bundle S3Bucket=$S3_BUCKET,S3Key=deploy.zip

@@ -60,7 +60,7 @@ jobs:
     provider: elasticbeanstalk
     region: 'us-east-1'
     app: 'multi-docker'
-    
+    env: 'MultiDocker-env'
     access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
     secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 

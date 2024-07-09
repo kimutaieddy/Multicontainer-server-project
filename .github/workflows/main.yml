@@ -6,57 +6,58 @@ on:
       - main
   pull_request:
     branches:
-      - main 
+      - main
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      - run: npm install
+      - name: Install and Test Server
+        run: |
+          npm install
+          npm test
         working-directory: ./server
 
-      - run: npm test
-        working-directory: ./server
-
-      - run: npm install
+      - name: Install and Test Worker
+        run: |
+          npm install
+          npm test
         working-directory: ./worker
 
-      - run: npm test
-        working-directory: ./worker
-
-      - run: npm install
+      - name: Install, Test, and Build Client
+        run: |
+          npm install
+          npm test
+          npm run build
         working-directory: ./client
 
-      - run: npm test
-        working-directory: ./client
-
-      - run: npm run build
-        working-directory: ./client
-
-      - uses: docker/login-action@v2.1.0
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2.1.0
         with:
           username: kimutaieddy
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - run: |
+      - name: Build and Push Docker Images
+        run: |
           docker build -t kimutaieddy/server:latest -f ./server/Dockerfile ./server
           docker build -t kimutaieddy/nginx:latest -f ./nginx/Dockerfile ./nginx
           docker build -t kimutaieddy/worker:latest -f ./worker/Dockerfile ./worker
           docker build -t kimutaieddy/client:latest -f ./client/Dockerfile ./client
-
-      - run: |
           docker push kimutaieddy/server:latest
           docker push kimutaieddy/nginx:latest
           docker push kimutaieddy/worker:latest
           docker push kimutaieddy/client:latest
-  name: Deploy to Elastic Beanstalk
+
+name: Deploy to Elastic Beanstalk
 
 on:
   push:
@@ -68,29 +69,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14' # Use the Node.js version you need
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Use the Node.js version you need
 
-    - name: Set up AWS CLI
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1 # Use your AWS region
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # Use your AWS region
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Deploy to Elastic Beanstalk
-      env:
-        EB_ENV: Multicontainer-env # Replace with your Elastic Beanstalk environment name
-      run: |
-        npm run build
-        zip -r deploy.zip .
-        aws elasticbeanstalk create-application-version --application-name $EB_ENV --version-label v1 --source-bundle S3Bucket=elasticbeanstalk-us-east-1-891376912432,S3Key=deploy.zip
-        aws elasticbeanstalk update-environment --environment-name $EB_ENV --version-label v1
+      - name: Deploy to Elastic Beanstalk
+        env:
+          EB_ENV: Multicontainer-env # Replace with your Elastic Beanstalk environment name
+        run: |
+          npm run build
+          zip -r deploy.zip .
+          aws elasticbeanstalk create-application-version --application-name $EB_ENV --version-label v1 --source-bundle S3Bucket=elasticbeanstalk-us-east-1-891376912432,S3Key=deploy.zip
+          aws elasticbeanstalk update-environment --environment-name $EB_ENV --version-label v1

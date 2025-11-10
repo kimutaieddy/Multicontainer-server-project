@@ -34,12 +34,33 @@ pgClient.on('connect', () => {
 
 // Redis Client Setup
 const redis = require('redis');
+
+// Create Redis clients with new v4 API
 const redisClient = redis.createClient({
-  host: keys.redisHost,
-  port: keys.redisPort,
-  retry_strategy: () => 1000,
+  socket: {
+    host: keys.redisHost,
+    port: keys.redisPort,
+  },
+  legacyMode: false
 });
-const redisPublisher = redisClient.duplicate();
+
+const redisPublisher = redis.createClient({
+  socket: {
+    host: keys.redisHost,
+    port: keys.redisPort,
+  },
+  legacyMode: false
+});
+
+// Connect Redis clients
+redisClient.on('error', (err) => console.log('Redis Client Error', err));
+redisPublisher.on('error', (err) => console.log('Redis Publisher Error', err));
+
+(async () => {
+  await redisClient.connect();
+  await redisPublisher.connect();
+  console.log('Redis clients connected');
+})();
 
 // Express route handlers
 
@@ -54,9 +75,13 @@ app.get('/values/all', async (req, res) => {
 });
 
 app.get('/values/current', async (req, res) => {
-  redisClient.hgetall('values', (err, values) => {
+  try {
+    const values = await redisClient.hGetAll('values');
     res.send(values);
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching values');
+  }
 });
 
 app.post('/values', async (req, res) => {
@@ -66,8 +91,8 @@ app.post('/values', async (req, res) => {
     return res.status(422).send('Index too high');
   }
 
-  redisClient.hset('values', index, 'Nothing yet!');
-  redisPublisher.publish('insert', index);
+  await redisClient.hSet('values', index, 'Nothing yet!');
+  await redisPublisher.publish('insert', index);
   pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
 
   res.send({ working: true });
